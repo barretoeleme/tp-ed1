@@ -63,14 +63,19 @@ void nonoRead (Nonogram *game)
 	}
 }
 
-// void nonoFree (Nonogram *game)
-// {
-// 	for (int i = 0; i < game->size; i++) {
-// 		free(game->lines[i]->members);
-// 		free(game->columns[i]->members);
-// 		free(game->mat[i]);
-// 	}
-// }
+void nonoFree (Nonogram *game)
+{
+	for (int i = 0; i < game->size; i++) {
+		free(game->lines[i]->members);
+		free(game->columns[i]->members);
+		free(game->mat[i]);
+	}
+	free(game->lines);
+	free(game->columns);
+	free(game->mat);
+
+	free(game);
+}
 
 void nonoPrint (Nonogram *game)
 {
