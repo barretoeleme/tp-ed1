@@ -76,7 +76,14 @@ void nonoFree (Nonogram *game)
 	free(game);
 }
 
-
+void nonoSolveHint (Nonogram *game) // prototype
+{
+	for (int i = 0; i < game->size; i++) {
+		for (int j = 0; j < game->lines[i]->qntMemb; j++) {
+			game->mat[i][j] = FULL;
+		}
+	}
+}
 
 void nonoPrint (Nonogram *game)
 {
@@ -103,7 +110,11 @@ int main()
 	Nonogram *game;
 	int n;
 
-	scanf("%d", &n);
-	game = nonoAlocate(n);
+	game = nonoAlocate();
 	nonoRead(game);
+	nonoSolveHint(game);
+	nonoPrint(game);
+	nonoFree(game);
+
+	return 0;
 }
