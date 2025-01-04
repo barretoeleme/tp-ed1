@@ -16,8 +16,8 @@ typedef struct {
 
 typedef struct {
 	int size;
-	Hint *lines;
 	Hint *columns;
+	Hint *lines;
 	Square **mat;
 } Nonogram;
 
@@ -31,8 +31,8 @@ Nonogram *nonoAlocate ()
 	game = (Nonogram*) malloc(sizeof(Nonogram));
 
 	game->size = n;
-	game->lines = (Hint*) malloc(game->size * sizeof(Hint));
 	game->columns = (Hint*) malloc(game->size * sizeof(Hint));
+	game->lines = (Hint*) malloc(game->size * sizeof(Hint));
 
 	game->mat = (Square**) malloc(game->size * sizeof(Square*));
 	for (int i = 0; i < game->size; i++) {
@@ -42,10 +42,16 @@ Nonogram *nonoAlocate ()
 	return game;
 }
 
-// void nonoSolveThisShit 
-
 void nonoRead (Nonogram *game)
 {
+	for (int i = 0; i < game->size; i++) {
+		scanf("%d", &game->columns[i]->qntMemb);
+		game->columns[i]->members = malloc(game->columns[i]->qntMemb * sizeof(int));
+		for (int j = 0; j < game->columns[i]->qntMemb; j++) {
+			scanf("%d", &game->columns[i]->members[j]);
+		}
+	}
+
 	for (int i = 0; i < game->size; i++) {
 		scanf("%d", &game->lines[i]->qntMemb);
 		game->lines[i]->members = malloc(game->lines[i]->qntMemb * sizeof(int));
@@ -54,28 +60,23 @@ void nonoRead (Nonogram *game)
 		}
 	}
 
-	for (int i = 0; i < game->size; i++) {
-		scanf("%d", &game->columns[i]->qntMemb);
-		game->columns[i]->members = malloc(game->columns[i]->qntMemb * sizeof(int));
-		for (int j = 0; j < game->columns[i]->qntMemb; j++) {
-			scanf("%d", &game->columns[i]->members[j]);
-		}
-	}
 }
 
 void nonoFree (Nonogram *game)
 {
 	for (int i = 0; i < game->size; i++) {
-		free(game->lines[i]->members);
 		free(game->columns[i]->members);
+		free(game->lines[i]->members);
 		free(game->mat[i]);
 	}
-	free(game->lines);
 	free(game->columns);
+	free(game->lines);
 	free(game->mat);
 
 	free(game);
 }
+
+
 
 void nonoPrint (Nonogram *game)
 {
